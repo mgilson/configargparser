@@ -7,7 +7,6 @@ This implementation is still incomplete.  Here's a partial TODO list:
 ## Conform to documented behavior
 
 * (easy) Write a function that figures out `dest` from `args` in `add_argument`, instead of relying on the `Action` object
-* (trivial) Write a `parse_args` function which uses `parse_known_args`.  (e.g. copy `parse_args` from the `cpython` implementation to guarantee it calls `parse_known_args`.)
 
 ## Less Easy Stuff…
 I haven't tried any of this yet. It's unlikely—but still possible!—that it could just work…
