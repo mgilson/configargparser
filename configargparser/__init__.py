@@ -1,6 +1,7 @@
 import argparse
 import ConfigParser
 import os
+from gettext import gettext as _
 
 def _identity(x):
     return x
@@ -107,65 +108,14 @@ class ArgumentConfigEnvParser(argparse.ArgumentParser):
 
         return ns, argv
 
-
-if __name__ == '__main__':
-    #TODO:  Make these real unittests.
-    fake_config = """
-[MAIN]
-foo:bar
-bar:1
-"""
-    with open('_config.file', 'w') as fout:
-        fout.write(fake_config)
-
-    parser = ArgumentConfigEnvParser()
-    parser.add_argument('--config-file', action='config',
-                        help='location of config file')
-    parser.add_argument('--foo', type=str, action='store', default='grape',
-                        help="don't know what foo does ...")
-    parser.add_argument('--bar', type=int, default=7, action='store',
-                        help='This is an integer (I hope)')
-    parser.add_argument('--baz', type=float, action='store',
-                        help='This is a float (I hope)')
-    parser.add_argument('--qux', type=int, default='6', action='store',
-                        help='this is another int')
-    ns = parser.parse_args([])
-
-    parser_defaults = {'foo': "grape", 'bar': 7, 'baz': None, 'qux': 6}
-    config_defaults = {'foo': 'bar', 'bar': 1}
-    env_defaults = {"baz": 3.14159}
-
-    # This should be the defaults we gave the parser
-    print ns
-    assert ns.__dict__ == parser_defaults
-
-    # This should be the defaults we gave the parser + config defaults
-    d = parser_defaults.copy()
-    d.update(config_defaults)
-    ns = parser.parse_args(['--config-file', '_config.file'])
-    print ns
-    assert ns.__dict__ == d
-
-    os.environ['BAZ'] = '3.14159'
-
-    # This should be the parser defaults + config defaults + env_defaults
-    d = parser_defaults.copy()
-    d.update(config_defaults)
-    d.update(env_defaults)
-    ns = parser.parse_args(['--config-file', '_config.file'])
-    print ns
-    assert ns.__dict__ == d
-
-    # This should be the parser defaults + config defaults +
-    #                    env_defaults + commandline
-    commandline = {'foo': '3', 'qux': 4}
-    d = parser_defaults.copy()
-    d.update(config_defaults)
-    d.update(env_defaults)
-    d.update(commandline)
-    ns = parser.parse_args(['--config-file', '_config.file',
-                            '--foo=3', '--qux=4'])
-    print ns
-    assert ns.__dict__ == d
-
-    os.remove('_config.file')
+    def parse_args(self, args=None, namespace=None):
+        # Blantantly copy argparse.ArgumentParser.parse_args
+        #
+        # This isn't strictly necessary, but argparse doesn't guarantee
+        # that parse_args is implemented on top of parse_known_args
+        # so this makes sure of that fact.
+        args, argv = self.parse_known_args(args, namespace)
+        if argv:
+            msg = _('unrecognized arguments: %s')
+            self.error(msg % ' '.join(argv))
+        return args
