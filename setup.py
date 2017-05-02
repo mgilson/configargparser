@@ -5,7 +5,7 @@ setup(
     version='0.0.1',
     author='Matthew Gilson',
     description='Parse arguments from anywhere',
-    license='BSD',
+    license='Apache License, Version 2.0',
     packages=['configargparser'],
     test_suite='tests',
 )
