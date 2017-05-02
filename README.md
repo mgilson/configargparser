@@ -1,3 +1,36 @@
+# What is configargparser?
+
+There are three main ways that programs get data from their environment when
+they start up:
+
+1. Commandline arguments,
+2. Configuration files
+3. Environment variables
+
+Currently, if a python program wants to parse data from these sources, it needs
+to first check the environment variables, then check for a configuration file
+and finally look at the commandline arguments.  The general cascade is that
+commandline arguments should override config files which should override
+environment variables.  Unfortunately, checking all of these places is a
+major pain -- which is what configargparser is meant to address.
+
+# Installation
+
+Installation should be straight forward:
+
+To install via pip:
+
+```sh
+pip install configargparser
+```
+
+To install from source:
+
+```sh
+python setup.py install
+```
+
+
 # TODO
 This implementation is still incomplete.  Here's a partial TODO list:
 
