@@ -7,7 +7,7 @@ setup(
     author='Matthew Gilson',
     author_email='m.gilson1@gmail.com',
     description='Parse arguments from anywhere',
-    license='Apache License, Version 2.0',
+    license='MIT',
     packages=['configargparser'],
     test_suite='tests',
     url='https://github.com/mgilson/configargparser'
